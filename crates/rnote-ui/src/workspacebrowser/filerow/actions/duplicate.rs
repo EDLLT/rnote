@@ -1,7 +1,6 @@
 // Imports
 use crate::workspacebrowser::RnFileRow;
 use crate::RnAppWindow;
-use gettextrs::gettext;
 use gtk4::prelude::FileExt;
 use gtk4::{gio, glib, glib::clone};
 use once_cell::sync::Lazy;
@@ -33,7 +32,7 @@ pub(crate) fn duplicate(filerow: &RnFileRow, appwindow: &RnAppWindow) -> gio::Si
     action.connect_activate(clone!(@weak filerow, @weak appwindow => move |_, _| {
         glib::spawn_future_local(clone!(@weak filerow, @weak appwindow => async move {
             let Some(current_path) = filerow.current_file().and_then(|f| f.path()) else {
-                appwindow.overlays().dispatch_toast_error(&gettext("Can't duplicate an unsaved document"));
+                appwindow.overlays().dispatch_toast_error(&("Can't duplicate an unsaved document"));
                 debug!("Could not duplicate file, current file is None.");
                 return;
             };
@@ -43,13 +42,13 @@ pub(crate) fn duplicate(filerow: &RnFileRow, appwindow: &RnAppWindow) -> gio::Si
 
             if current_path.is_file() {
                 if let Err(e) = duplicate_file(&current_path).await {
-                    appwindow.overlays().dispatch_toast_error(&gettext("Duplicating the file failed"));
+                    appwindow.overlays().dispatch_toast_error(&("Duplicating the file failed"));
                     debug!("Duplicating file for path `{current_path:?}` failed, Err: {e:?}");
                     success = false;
                 }
             } else if current_path.is_dir() {
                 if let Err(e) = duplicate_dir(&current_path).await {
-                    appwindow.overlays().dispatch_toast_error(&gettext("Duplicating the directory failed"));
+                    appwindow.overlays().dispatch_toast_error(&("Duplicating the directory failed"));
                     debug!("Duplicating directory for path `{current_path:?}` failed, Err: {e:?}");
                     success = false;
                 }

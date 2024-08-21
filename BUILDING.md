@@ -125,14 +125,14 @@ If a native build on the host is wanted, meson can be called directly.
 Install all needed dependencies and build tools, e.g. for Fedora:
 
 ```bash
-sudo dnf install gcc gcc-c++ clang clang-devel python3 make cmake meson git appstream gettext desktop-file-utils \
+sudo dnf install gcc gcc-c++ clang clang-devel python3 make cmake meson git appstream  desktop-file-utils \
 shared-mime-info kernel-devel gtk4-devel libadwaita-devel poppler-glib-devel poppler-data alsa-lib-devel
 ```
 
 For debian based distros:
 
 ```bash
-sudo apt install build-essential clang libclang-dev python3 make cmake meson git appstream gettext \
+sudo apt install build-essential clang libclang-dev python3 make cmake meson git appstream  \
 desktop-file-utils shared-mime-info libgtk-4-dev libadwaita-1-dev libpoppler-glib-dev libasound2-dev
 ```
 
@@ -187,7 +187,7 @@ This places the files in the specified prefix and their subpaths. The binary sho
 If meson was configured with a different install prefix path than `/usr`, then GIO needs to be told where the installed
 gschema is located. this can be done through the `GSETTINGS_SCHEMA_DIR` env variable.
 
-For example to run the application with a custom gschema path: 
+For example to run the application with a custom gschema path:
 `GSETTINGS_SCHEMA_DIR=<prefix_path>/share/glib-2.0/schemas rnote`
 
 ## Test
@@ -232,7 +232,7 @@ meson compile <custom target> -C _mesonbuild
 # Debugging
 For a native meson build:
 Be sure to configure meson with option `-Dprofile=devel` to have a build that includes debugging symbols.
-Then configure, compile and install the meson project as outlined above. 
+Then configure, compile and install the meson project as outlined above.
 
 ## With VSCode
 With the `CodeLLDB` extension can be used to debug, set breakpoints etc. from within the editor.

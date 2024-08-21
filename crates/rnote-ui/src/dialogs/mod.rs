@@ -10,7 +10,6 @@ use crate::config;
 use crate::workspacebrowser::workspacesbar::RnWorkspaceRow;
 use crate::{globals, RnIconPicker};
 use adw::prelude::*;
-use gettextrs::{gettext, pgettext};
 use gtk4::{
     gio, glib, glib::clone, Builder, Button, CheckButton, ColorDialogButton, FileDialog, Label,
     MenuButton, ShortcutsWindow, StringList,
@@ -28,14 +27,14 @@ pub(crate) fn dialog_about(appwindow: &RnAppWindow) {
     let aboutdialog = adw::AboutDialog::builder()
         .application_name(config::APP_NAME_CAPITALIZED)
         .application_icon(app_icon_name)
-        .comments(gettext("Sketch and take handwritten notes"))
+        .comments("Sketch and take handwritten notes")
         .website(config::APP_WEBSITE)
         .issue_url(config::APP_ISSUES_URL)
         .support_url(config::APP_SUPPORT_URL)
         .developer_name(config::APP_AUTHOR_NAME)
         .developers(config::APP_AUTHORS.lines().collect::<Vec<&str>>())
         // TRANSLATORS: 'Name <email@domain.com>' or 'Name https://website.example'
-        .translator_credits(gettext("translator-credits"))
+        .translator_credits("translator-credits")
         .license_type(globals::APP_LICENSE)
         .version((String::from(config::APP_VERSION) + config::APP_VERSION_SUFFIX).as_str())
         .build();
@@ -112,7 +111,7 @@ pub(crate) async fn dialog_new_doc(appwindow: &RnAppWindow, canvas: &RnCanvas) {
                     if let Err(e) = canvas.save_document_to_file(&output_file).await {
                         error!("Saving document failed before creating new document, Err: {e:?}");
                         canvas.set_output_file(None);
-                        appwindow.overlays().dispatch_toast_error(&gettext("Saving document failed"));
+                        appwindow.overlays().dispatch_toast_error(&("Saving document failed"));
                         appwindow.overlays().progressbar_abort();
                     } else {
                         appwindow.overlays().progressbar_finish();
@@ -189,14 +188,14 @@ pub(crate) async fn dialog_close_tab(appwindow: &RnAppWindow, tab_page: &adw::Ta
     let save_file_display_name = save_file
         .as_ref()
         .and_then(|f| Some(f.path()?.file_stem()?.to_string_lossy().to_string()))
-        .unwrap_or_else(|| gettext("- invalid file name -"));
+        .unwrap_or_else(|| String::from("- invalid file name -"));
     let save_folder_display_name = save_file
         .as_ref()
         .and_then(|f| {
             f.parent()
                 .and_then(|p| Some(p.path()?.display().to_string()))
         })
-        .unwrap_or_else(|| gettext("- invalid save folder name -"));
+        .unwrap_or_else(|| String::from("- invalid save folder name -"));
 
     let row = adw::ActionRow::builder()
         .title(save_file_display_name)
@@ -212,12 +211,12 @@ pub(crate) async fn dialog_close_tab(appwindow: &RnAppWindow, tab_page: &adw::Ta
     if canvas_output_file.is_some() {
         // Indicate that a new existing file will be saved
         let icon_image = gtk4::Image::from_icon_name("doc-save-symbolic");
-        icon_image.set_tooltip_text(Some(&gettext("The changes will be saved")));
+        icon_image.set_tooltip_text(Some(&("The changes will be saved")));
         prefix_box.append(&icon_image);
     } else {
         // Indicate that a new file will be created
         let icon_image = gtk4::Image::from_icon_name("doc-create-symbolic");
-        icon_image.set_tooltip_text(Some(&gettext("A new file will be created")));
+        icon_image.set_tooltip_text(Some(&("A new file will be created")));
         prefix_box.append(&icon_image);
     }
     row.add_prefix(&prefix_box);
@@ -241,7 +240,7 @@ pub(crate) async fn dialog_close_tab(appwindow: &RnAppWindow, tab_page: &adw::Ta
                     canvas.set_output_file(None);
                     appwindow
                         .overlays()
-                        .dispatch_toast_error(&gettext("Saving document failed"));
+                        .dispatch_toast_error(&("Saving document failed"));
                     appwindow.overlays().progressbar_abort();
                 } else {
                     appwindow.overlays().progressbar_finish();
@@ -322,14 +321,14 @@ pub(crate) async fn dialog_close_window(appwindow: &RnAppWindow) {
         let save_file_display_name = save_file
             .as_ref()
             .and_then(|f| Some(f.path()?.file_stem()?.to_string_lossy().to_string()))
-            .unwrap_or_else(|| gettext("- invalid file name -"));
+            .unwrap_or_else(|| String::from("- invalid file name -"));
         let save_folder_display_name = save_file
             .as_ref()
             .and_then(|f| {
                 f.parent()
                     .and_then(|p| Some(p.path()?.display().to_string()))
             })
-            .unwrap_or_else(|| gettext("- invalid save folder name -"));
+            .unwrap_or_else(|| String::from("- invalid save folder name -"));
 
         let row = adw::ActionRow::builder()
             .title(save_file_display_name)
@@ -344,12 +343,12 @@ pub(crate) async fn dialog_close_window(appwindow: &RnAppWindow) {
         if canvas_output_file.is_some() {
             // Indicate that a new existing file will be saved
             let icon_image = gtk4::Image::from_icon_name("doc-save-symbolic");
-            icon_image.set_tooltip_text(Some(&gettext("The changes will be saved")));
+            icon_image.set_tooltip_text(Some(&("The changes will be saved")));
             prefix_box.append(&icon_image);
         } else {
             // Indicate that a new file will be created
             let icon_image = gtk4::Image::from_icon_name("doc-create-symbolic");
-            icon_image.set_tooltip_text(Some(&gettext("A new file will be created")));
+            icon_image.set_tooltip_text(Some(&("A new file will be created")));
             prefix_box.append(&icon_image);
         }
         row.add_prefix(&prefix_box);
@@ -391,7 +390,7 @@ pub(crate) async fn dialog_close_window(appwindow: &RnAppWindow) {
                     canvas.set_output_file(None);
                     appwindow
                         .overlays()
-                        .dispatch_toast_error(&gettext("Saving document failed"));
+                        .dispatch_toast_error(&("Saving document failed"));
                 }
             }
 
@@ -492,9 +491,9 @@ pub(crate) async fn dialog_edit_selected_workspace(appwindow: &RnAppWindow) {
                 dialog.set_sensitive(false);
 
                 let filedialog = FileDialog::builder()
-                    .title(gettext("Change Workspace Directory"))
+                    .title("Change Workspace Directory")
                     .modal(true)
-                    .accept_label(gettext("Select"))
+                    .accept_label("Select")
                     .initial_file(&gio::File::for_path(preview_row.entry().dir()))
                     .build();
 
@@ -512,7 +511,7 @@ pub(crate) async fn dialog_edit_selected_workspace(appwindow: &RnAppWindow) {
                                 name_entryrow.set_text(&file_name);
                             }
                         } else {
-                            dir_label.set_label(&gettext("- no directory selected -"));
+                            dir_label.set_label(&("- no directory selected -"));
                         }
                     }
                     Err(e) => {
@@ -608,59 +607,57 @@ const WORKSPACELISTENTRY_ICONS_LIST: &[&str] = &[
 
 fn workspacelistentry_icons_list_to_display_name(icon_name: &str) -> String {
     match icon_name {
-        "workspacelistentryicon-bandaid-symbolic" => gettext("Band-Aid"),
-        "workspacelistentryicon-bank-symbolic" => gettext("Bank"),
-        "workspacelistentryicon-bookmark-symbolic" => gettext("Bookmark"),
-        "workspacelistentryicon-book-symbolic" => gettext("Book"),
-        "workspacelistentryicon-bread-symbolic" => gettext("Bread"),
-        "workspacelistentryicon-calendar-symbolic" => gettext("Calendar"),
-        "workspacelistentryicon-camera-symbolic" => gettext("Camera"),
-        "workspacelistentryicon-chip-symbolic" => pgettext("as in computer chip", "Chip"),
-        "workspacelistentryicon-clock-symbolic" => gettext("Clock"),
-        "workspacelistentryicon-code-symbolic" => gettext("Code"),
-        "workspacelistentryicon-compose-symbolic" => gettext("Compose"),
-        "workspacelistentryicon-crop-symbolic" => pgettext("as in plant", "Crop"),
-        "workspacelistentryicon-dictionary-symbolic" => gettext("Dictionary"),
-        "workspacelistentryicon-document-symbolic" => gettext("Document"),
-        "workspacelistentryicon-drinks-symbolic" => gettext("Drinks"),
-        "workspacelistentryicon-flag-symbolic" => gettext("Flag"),
-        "workspacelistentryicon-folder-symbolic" => gettext("Folder"),
-        "workspacelistentryicon-footprints-symbolic" => gettext("Footprints"),
-        "workspacelistentryicon-gamepad-symbolic" => gettext("Gamepad"),
-        "workspacelistentryicon-gear-symbolic" => gettext("Gear"),
-        "workspacelistentryicon-globe-symbolic" => gettext("Globe"),
-        "workspacelistentryicon-hammer-symbolic" => gettext("Hammer"),
-        "workspacelistentryicon-heart-symbolic" => gettext("Heart"),
-        "workspacelistentryicon-hourglass-symbolic" => gettext("Hourglass"),
-        "workspacelistentryicon-key-symbolic" => gettext("Key"),
-        "workspacelistentryicon-language-symbolic" => gettext("Language"),
-        "workspacelistentryicon-library-symbolic" => gettext("Library"),
-        "workspacelistentryicon-lightbulb-symbolic" => gettext("Lightbulb"),
-        "workspacelistentryicon-math-symbolic" => gettext("Mathematics"),
-        "workspacelistentryicon-meeting-symbolic" => gettext("Meeting"),
-        "workspacelistentryicon-money-symbolic" => gettext("Money"),
-        "workspacelistentryicon-musicnote-symbolic" => gettext("Musical Note"),
-        "workspacelistentryicon-nature-symbolic" => gettext("Nature"),
-        "workspacelistentryicon-open-book-symbolic" => gettext("Open Book"),
-        "workspacelistentryicon-paintbrush-symbolic" => gettext("Paintbrush"),
-        "workspacelistentryicon-pencilandpaper-symbolic" => gettext("Pencil and Paper"),
-        "workspacelistentryicon-people-symbolic" => gettext("People"),
-        "workspacelistentryicon-person-symbolic" => gettext("Person"),
-        "workspacelistentryicon-projector-symbolic" => gettext("Projector"),
-        "workspacelistentryicon-science-symbolic" => gettext("Science"),
-        "workspacelistentryicon-scratchpad-symbolic" => gettext("Scratchpad"),
-        "workspacelistentryicon-shapes-symbolic" => gettext("Shapes"),
-        "workspacelistentryicon-shopping-symbolic" => gettext("Shopping"),
-        "workspacelistentryicon-speechbubble-symbolic" => gettext("Speech Bubble"),
-        "workspacelistentryicon-speedometer-symbolic" => gettext("Speedometer"),
-        "workspacelistentryicon-star-symbolic" => gettext("Star"),
-        "workspacelistentryicon-terminal-symbolic" => {
-            pgettext("as in terminal software", "Terminal")
-        }
-        "workspacelistentryicon-text-symbolic" => gettext("Text"),
-        "workspacelistentryicon-travel-symbolic" => gettext("Travel"),
-        "workspacelistentryicon-weather-symbolic" => gettext("Weather"),
-        "workspacelistentryicon-weight-symbolic" => gettext("Weight"),
+        "workspacelistentryicon-bandaid-symbolic" => String::from("Band-Aid"),
+        "workspacelistentryicon-bank-symbolic" => String::from("Bank"),
+        "workspacelistentryicon-bookmark-symbolic" => String::from("Bookmark"),
+        "workspacelistentryicon-book-symbolic" => String::from("Book"),
+        "workspacelistentryicon-bread-symbolic" => String::from("Bread"),
+        "workspacelistentryicon-calendar-symbolic" => String::from("Calendar"),
+        "workspacelistentryicon-camera-symbolic" => String::from("Camera"),
+        "workspacelistentryicon-chip-symbolic" =>  String::from("Chip"),
+        "workspacelistentryicon-clock-symbolic" => String::from("Clock"),
+        "workspacelistentryicon-code-symbolic" => String::from("Code"),
+        "workspacelistentryicon-compose-symbolic" => String::from("Compose"),
+        "workspacelistentryicon-crop-symbolic" => String::from("Crop"),
+        "workspacelistentryicon-dictionary-symbolic" => String::from("Dictionary"),
+        "workspacelistentryicon-document-symbolic" => String::from("Document"),
+        "workspacelistentryicon-drinks-symbolic" => String::from("Drinks"),
+        "workspacelistentryicon-flag-symbolic" => String::from("Flag"),
+        "workspacelistentryicon-folder-symbolic" => String::from("Folder"),
+        "workspacelistentryicon-footprints-symbolic" => String::from("Footprints"),
+        "workspacelistentryicon-gamepad-symbolic" => String::from("Gamepad"),
+        "workspacelistentryicon-gear-symbolic" => String::from("Gear"),
+        "workspacelistentryicon-globe-symbolic" => String::from("Globe"),
+        "workspacelistentryicon-hammer-symbolic" => String::from("Hammer"),
+        "workspacelistentryicon-heart-symbolic" => String::from("Heart"),
+        "workspacelistentryicon-hourglass-symbolic" => String::from("Hourglass"),
+        "workspacelistentryicon-key-symbolic" => String::from("Key"),
+        "workspacelistentryicon-language-symbolic" => String::from("Language"),
+        "workspacelistentryicon-library-symbolic" => String::from("Library"),
+        "workspacelistentryicon-lightbulb-symbolic" => String::from("Lightbulb"),
+        "workspacelistentryicon-math-symbolic" => String::from("Mathematics"),
+        "workspacelistentryicon-meeting-symbolic" => String::from("Meeting"),
+        "workspacelistentryicon-money-symbolic" => String::from("Money"),
+        "workspacelistentryicon-musicnote-symbolic" => String::from("Musical Note"),
+        "workspacelistentryicon-nature-symbolic" => String::from("Nature"),
+        "workspacelistentryicon-open-book-symbolic" => String::from("Open Book"),
+        "workspacelistentryicon-paintbrush-symbolic" => String::from("Paintbrush"),
+        "workspacelistentryicon-pencilandpaper-symbolic" => String::from("Pencil and Paper"),
+        "workspacelistentryicon-people-symbolic" => String::from("People"),
+        "workspacelistentryicon-person-symbolic" => String::from("Person"),
+        "workspacelistentryicon-projector-symbolic" => String::from("Projector"),
+        "workspacelistentryicon-science-symbolic" => String::from("Science"),
+        "workspacelistentryicon-scratchpad-symbolic" => String::from("Scratchpad"),
+        "workspacelistentryicon-shapes-symbolic" => String::from("Shapes"),
+        "workspacelistentryicon-shopping-symbolic" => String::from("Shopping"),
+        "workspacelistentryicon-speechbubble-symbolic" => String::from("Speech Bubble"),
+        "workspacelistentryicon-speedometer-symbolic" => String::from("Speedometer"),
+        "workspacelistentryicon-star-symbolic" => String::from("Star"),
+        "workspacelistentryicon-terminal-symbolic" => String::from("Terminal"),
+        "workspacelistentryicon-text-symbolic" => String::from("Text"),
+        "workspacelistentryicon-travel-symbolic" => String::from("Travel"),
+        "workspacelistentryicon-weather-symbolic" => String::from("Weather"),
+        "workspacelistentryicon-weight-symbolic" => String::from("Weight"),
         _ => unimplemented!(),
     }
 }

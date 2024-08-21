@@ -43,6 +43,7 @@ pub(crate) fn pkg_data_dir() -> anyhow::Result<PathBuf> {
     Ok(data_dir()?.join(config::APP_NAME))
 }
 
+#[allow(dead_code)]
 pub(crate) fn locale_dir() -> anyhow::Result<PathBuf> {
     if cfg!(target_os = "windows") {
         let exec_dir = exec_parent_dir()?;

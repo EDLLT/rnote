@@ -100,12 +100,7 @@ fn setup_tracing() -> anyhow::Result<()> {
 }
 
 fn setup_i18n() -> anyhow::Result<()> {
-    let locale_dir = env::locale_dir()?;
 
-    gettextrs::setlocale(gettextrs::LocaleCategory::LcAll, "");
-    gettextrs::bindtextdomain(config::GETTEXT_PACKAGE, locale_dir)?;
-    gettextrs::bind_textdomain_codeset(config::GETTEXT_PACKAGE, "UTF-8")?;
-    gettextrs::textdomain(config::GETTEXT_PACKAGE)?;
     Ok(())
 }
 

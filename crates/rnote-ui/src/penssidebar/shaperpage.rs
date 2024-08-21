@@ -4,7 +4,6 @@ use crate::{
     RnGroupedIconPicker, RnStrokeWidthPicker,
 };
 use adw::{prelude::*, subclass::prelude::*};
-use gettextrs::gettext;
 use gtk4::{
     glib, glib::clone, Button, CompositeTemplate, ListBox, MenuButton, Popover, StringList,
 };
@@ -384,7 +383,7 @@ impl RnShaperPage {
 fn shape_builder_type_icons_get_groups() -> Vec<GroupedIconPickerGroupData> {
     vec![
         GroupedIconPickerGroupData {
-            name: gettext("Miscellaneous"),
+            name: String::from("Miscellaneous"),
             icons: StringList::new(&[
                 "shapebuilder-line-symbolic",
                 "shapebuilder-arrow-symbolic",
@@ -393,7 +392,7 @@ fn shape_builder_type_icons_get_groups() -> Vec<GroupedIconPickerGroupData> {
             ]),
         },
         GroupedIconPickerGroupData {
-            name: gettext("Coordinate Systems"),
+            name: String::from("Coordinate Systems"),
             icons: StringList::new(&[
                 "shapebuilder-coordsystem2d-symbolic",
                 "shapebuilder-coordsystem3d-symbolic",
@@ -401,14 +400,14 @@ fn shape_builder_type_icons_get_groups() -> Vec<GroupedIconPickerGroupData> {
             ]),
         },
         GroupedIconPickerGroupData {
-            name: gettext("Ellipses"),
+            name: String::from("Ellipses"),
             icons: StringList::new(&[
                 "shapebuilder-ellipse-symbolic",
                 "shapebuilder-fociellipse-symbolic",
             ]),
         },
         GroupedIconPickerGroupData {
-            name: gettext("Curves & Paths"),
+            name: String::from("Curves & Paths"),
             icons: StringList::new(&[
                 "shapebuilder-quadbez-symbolic",
                 "shapebuilder-cubbez-symbolic",
@@ -423,18 +422,18 @@ fn shape_builder_type_icons_to_display_name(icon_name: &str) -> String {
     match ShapeBuilderType::from_icon_name(icon_name)
         .expect("ShapeBuilderTypePicker failed, display name of unknown icon name requested")
     {
-        ShapeBuilderType::Arrow => gettext("Arrow"),
-        ShapeBuilderType::Line => gettext("Line"),
-        ShapeBuilderType::Rectangle => gettext("Rectangle"),
-        ShapeBuilderType::Grid => gettext("Grid"),
-        ShapeBuilderType::CoordSystem2D => gettext("2D coordinate system"),
-        ShapeBuilderType::CoordSystem3D => gettext("3D coordinate system"),
-        ShapeBuilderType::QuadrantCoordSystem2D => gettext("2D single quadrant coordinate system"),
-        ShapeBuilderType::Ellipse => gettext("Ellipse"),
-        ShapeBuilderType::FociEllipse => gettext("Ellipse with foci"),
-        ShapeBuilderType::QuadBez => gettext("Quadratic bezier curve"),
-        ShapeBuilderType::CubBez => gettext("Cubic bezier curve"),
-        ShapeBuilderType::Polyline => gettext("Polyline"),
-        ShapeBuilderType::Polygon => gettext("Polygon"),
+        ShapeBuilderType::Arrow => String::from("Arrow"),
+        ShapeBuilderType::Line => String::from("Line"),
+        ShapeBuilderType::Rectangle => String::from("Rectangle"),
+        ShapeBuilderType::Grid => String::from("Grid"),
+        ShapeBuilderType::CoordSystem2D => String::from("2D coordinate system"),
+        ShapeBuilderType::CoordSystem3D => String::from("3D coordinate system"),
+        ShapeBuilderType::QuadrantCoordSystem2D => String::from("2D single quadrant coordinate system"),
+        ShapeBuilderType::Ellipse => String::from("Ellipse"),
+        ShapeBuilderType::FociEllipse => String::from("Ellipse with foci"),
+        ShapeBuilderType::QuadBez => String::from("Quadratic bezier curve"),
+        ShapeBuilderType::CubBez => String::from("Cubic bezier curve"),
+        ShapeBuilderType::Polyline => String::from("Polyline"),
+        ShapeBuilderType::Polygon => String::from("Polygon"),
     }
 }

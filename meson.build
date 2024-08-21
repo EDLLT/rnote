@@ -47,7 +47,7 @@ version_micro = version_array[2].to_int()
 
 pkgdatadir = datadir / app_name
 iconsdir = datadir / 'icons'
-gettext_package = app_name
+_package = app_name
 app_idpath = '/com/github/flxzt/' + app_name + '/'
 
 if profile == 'devel'

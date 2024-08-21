@@ -25,7 +25,7 @@ pub(crate) const APP_DONATE_URL: &str = @APP_DONATE_URL@;
 #[allow(unused)]
 pub(crate) const PROFILE: &str = @PROFILE@;
 #[allow(unused)]
-pub(crate) const GETTEXT_PACKAGE: &str = @GETTEXT_PACKAGE@;
+pub(crate) const _PACKAGE: &str = @_PACKAGE@;
 
 // These are only allowed to be used in the `env` module
 #[allow(unused)]

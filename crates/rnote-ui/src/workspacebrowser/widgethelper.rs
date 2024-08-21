@@ -1,5 +1,4 @@
 // Imports
-use gettextrs::gettext;
 use gtk4::{
     glib, glib::clone, prelude::*, Align, Button, Entry, Grid, Label, Popover, PositionType,
 };
@@ -28,12 +27,12 @@ pub(crate) fn create_entry_dialog(entry: &Entry, label: &Label) -> (Button, Popo
         .build();
     let cancel_button = Button::builder()
         .halign(Align::Start)
-        .label(gettext("Cancel"))
+        .label("Cancel")
         .build();
 
     let apply_button = Button::builder()
         .halign(Align::End)
-        .label(gettext("Apply"))
+        .label("Apply")
         .build();
     apply_button.add_css_class("suggested-action");
 

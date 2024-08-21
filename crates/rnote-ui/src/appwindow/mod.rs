@@ -9,7 +9,6 @@ use crate::{
     RnSidebar,
 };
 use adw::{prelude::*, subclass::prelude::*};
-use gettextrs::gettext;
 use gtk4::{gdk, gio, glib, Application, IconTheme};
 use rnote_compose::Color;
 use rnote_engine::ext::GdkRGBAExt;
@@ -138,9 +137,9 @@ impl RnAppWindow {
 
         if !self.app().settings_schema_found() {
             // Display an error toast if settings schema could not be found
-            self.overlays().dispatch_toast_error(&gettext(
+            self.overlays().dispatch_toast_error(&
                 "Settings schema is not installed. App settings could not be loaded and won't be saved.",
-            ));
+            );
         } else {
             if let Err(e) = self.setup_settings_binds() {
                 error!("Failed to setup settings binds, Err: {e:?}");
@@ -518,7 +517,7 @@ impl RnAppWindow {
                 error!("Opening file with dialogs failed, Err: {e:?}");
 
                 self.overlays()
-                    .dispatch_toast_error(&gettext("Opening file failed"));
+                    .dispatch_toast_error(&("Opening file failed"));
                 self.overlays().progressbar_abort();
             }
         }

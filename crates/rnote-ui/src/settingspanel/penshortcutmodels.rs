@@ -1,5 +1,4 @@
 // Imports
-use gettextrs::gettext;
 use gtk4::{
     glib::prelude::*, prelude::*, Image, Label, ListItem, Orientation, SignalListItemFactory,
     StringList,
@@ -78,12 +77,12 @@ impl Default for ChangePenStyleListFactory {
             while let Some(ref next_child) = child {
                 if next_child.type_() == Label::static_type() {
                     let label = match pen_style {
-                        PenStyle::Brush => gettext("Brush"),
-                        PenStyle::Shaper => gettext("Shaper"),
-                        PenStyle::Typewriter => gettext("Typewriter"),
-                        PenStyle::Eraser => gettext("Eraser"),
-                        PenStyle::Selector => gettext("Selector"),
-                        PenStyle::Tools => gettext("Tools"),
+                        PenStyle::Brush => "Brush",
+                        PenStyle::Shaper => "Shaper",
+                        PenStyle::Typewriter => "Typewriter",
+                        PenStyle::Eraser => "Eraser",
+                        PenStyle::Selector => "Selector",
+                        PenStyle::Tools => "Tools",
                     };
                     next_child
                         .downcast_ref::<Label>()

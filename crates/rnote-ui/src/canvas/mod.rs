@@ -11,7 +11,6 @@ pub(crate) use widgetflagsboxed::WidgetFlagsBoxed;
 // Imports
 use crate::{config, RnAppWindow};
 use futures::StreamExt;
-use gettextrs::gettext;
 use gtk4::{
     gdk, gio, glib, glib::clone, graphene, prelude::*, subclass::prelude::*, Adjustment,
     DropTarget, EventControllerKey, EventControllerLegacy, IMMulticontext, PropagationPhase,
@@ -592,9 +591,9 @@ impl Default for RnCanvas {
 }
 
 pub(crate) static OUTPUT_FILE_NEW_TITLE: once_cell::sync::Lazy<String> =
-    once_cell::sync::Lazy::new(|| gettext("New Document"));
+    once_cell::sync::Lazy::new(|| String::from("New Document"));
 pub(crate) static OUTPUT_FILE_NEW_SUBTITLE: once_cell::sync::Lazy<String> =
-    once_cell::sync::Lazy::new(|| gettext("Draft"));
+    once_cell::sync::Lazy::new(|| String::from("Draft"));
 
 impl RnCanvas {
     // Sets the canvas zoom scroll step in % for one unit of the event controller delta
@@ -858,7 +857,7 @@ impl RnCanvas {
             .map(|f| {
                 f.basename()
                     .and_then(|t| Some(t.file_stem()?.to_string_lossy().to_string()))
-                    .unwrap_or_else(|| gettext("- invalid file name -"))
+                    .unwrap_or_else(|| String::from("- invalid file name -"))
             })
             .unwrap_or_else(|| OUTPUT_FILE_NEW_TITLE.to_string())
     }
@@ -871,7 +870,7 @@ impl RnCanvas {
             .map(|f| {
                 f.parent()
                     .and_then(|p| Some(p.path()?.display().to_string()))
-                    .unwrap_or_else(|| gettext("- invalid folder path -"))
+                    .unwrap_or_else(|| String::from("- invalid folder path -"))
             })
             .unwrap_or_else(|| OUTPUT_FILE_NEW_SUBTITLE.to_string())
     }
@@ -895,15 +894,15 @@ impl RnCanvas {
             canvas.set_unsaved_changes(true);
 
             appwindow.overlays().dispatch_toast_w_button_singleton(
-                        &gettext("Opened file was modified on disk"),
-                        &gettext("Reload"),
+                        &("Opened file was modified on disk"),
+                        &("Reload"),
                         clone!(@weak canvas, @weak appwindow => move |_reload_toast| {
                             glib::spawn_future_local(clone!(@weak appwindow => async move {
                                 appwindow.overlays().progressbar_start_pulsing();
 
                                 if let Err(e) = canvas.reload_from_disk().await {
                                     error!("Failed to reload current output file, Err: {e:?}");
-                                    appwindow.overlays().dispatch_toast_error(&gettext("Reloading .rnote file from disk failed"));
+                                    appwindow.overlays().dispatch_toast_error(&("Reloading .rnote file from disk failed"));
                                     appwindow.overlays().progressbar_abort();
                                 } else {
                                     appwindow.overlays().progressbar_finish();
@@ -966,7 +965,7 @@ impl RnCanvas {
                     canvas.set_unsaved_changes(true);
                     canvas.set_output_file(None);
                     appwindow.overlays().dispatch_toast_text(
-                        &gettext("Opened file was renamed or moved."),
+                        &("Opened file was renamed or moved."),
                         crate::overlays::TEXT_TOAST_TIMEOUT_DEFAULT,
                     );
                 }
@@ -980,7 +979,7 @@ impl RnCanvas {
                     canvas.set_unsaved_changes(true);
                     canvas.set_output_file(None);
                     appwindow.overlays().dispatch_toast_text(
-                        &gettext("Opened file was removed."),
+                        &("Opened file was removed."),
                         crate::overlays::TEXT_TOAST_TIMEOUT_DEFAULT,
                     );
                 }
@@ -1166,7 +1165,7 @@ impl RnCanvas {
                         },
                         Err(e) => {
                             error!("Failed to get dropped in file, Err: {e:?}");
-                            appwindow.overlays().dispatch_toast_error(&gettext("Inserting file failed"));
+                            appwindow.overlays().dispatch_toast_error(&("Inserting file failed"));
                         },
                     };
                 } else if value.is::<String>() {
@@ -1176,7 +1175,7 @@ impl RnCanvas {
                         },
                         Err(e) => {
                             error!("Failed to insert dropped in text, Err: {e:?}");
-                            appwindow.overlays().dispatch_toast_error(&gettext("Inserting text failed"));
+                            appwindow.overlays().dispatch_toast_error(&("Inserting text failed"));
                         }
                     };
                 }

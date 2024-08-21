@@ -9,7 +9,6 @@ use rnote_compose::ext::Vector2Ext;
 // Imports
 use crate::{RnAppWindow, RnCanvasWrapper, RnIconPicker, RnUnitEntry};
 use adw::prelude::*;
-use gettextrs::{gettext, pgettext};
 use gtk4::{
     gdk, glib, glib::clone, subclass::prelude::*, Adjustment, Button, ColorDialogButton,
     CompositeTemplate, MenuButton, ScrolledWindow, StringList, ToggleButton, Widget,
@@ -568,7 +567,7 @@ impl RnSettingsPanel {
             clone!(@weak self as settingspanel, @weak appwindow => move |row| {
                 if !row.is_active() {
                     appwindow.overlays().dispatch_toast_text_singleton(
-                        &gettext("Application restart is required"),
+                        &("Application restart is required"),
                         None,
                         &mut settingspanel.imp().app_restart_toast_singleton.borrow_mut()
                     );
@@ -884,24 +883,24 @@ const CURSORS_LIST: &[&str] = &[
 
 fn cursors_list_to_display_name(icon_name: &str) -> String {
     match icon_name {
-        "cursor-crosshair-small" => pgettext("a cursor type", "Crosshair (Small)"),
-        "cursor-crosshair-medium" => pgettext("a cursor type", "Crosshair (Medium)"),
-        "cursor-crosshair-large" => pgettext("a cursor type", "Crosshair (Large)"),
-        "cursor-dot-small" => pgettext("a cursor type", "Dot (Small)"),
-        "cursor-dot-medium" => pgettext("a cursor type", "Dot (Medium)"),
-        "cursor-dot-large" => pgettext("a cursor type", "Dot (Large)"),
-        "cursor-teardrop-nw-small" => pgettext("a cursor type", "Teardrop North-West (Small)"),
-        "cursor-teardrop-nw-medium" => pgettext("a cursor type", "Teardrop North-West (Medium)"),
-        "cursor-teardrop-nw-large" => pgettext("a cursor type", "Teardrop North-West (Large)"),
-        "cursor-teardrop-ne-small" => pgettext("a cursor type", "Teardrop North-East (Small)"),
-        "cursor-teardrop-ne-medium" => pgettext("a cursor type", "Teardrop North-East (Medium)"),
-        "cursor-teardrop-ne-large" => pgettext("a cursor type", "Teardrop North-East (Large)"),
-        "cursor-teardrop-n-small" => pgettext("a cursor type", "Teardrop North (Small)"),
-        "cursor-teardrop-n-medium" => pgettext("a cursor type", "Teardrop North (Medium)"),
-        "cursor-teardrop-n-large" => pgettext("a cursor type", "Teardrop North (Large)"),
-        "cursor-beam-small" => pgettext("a cursor type", "Beam (Small)"),
-        "cursor-beam-medium" => pgettext("a cursor type", "Beam (Medium)"),
-        "cursor-beam-large" => pgettext("a cursor type", "Beam (Large)"),
+        "cursor-crosshair-small" =>  String::from("Crosshair (Small)"),
+        "cursor-crosshair-medium" => String::from("Crosshair (Medium)"),
+        "cursor-crosshair-large" => String::from("Crosshair (Large)"),
+        "cursor-dot-small" => String::from("Dot (Small)"),
+        "cursor-dot-medium" => String::from("Dot (Medium)"),
+        "cursor-dot-large" => String::from("Dot (Large)"),
+        "cursor-teardrop-nw-small" => String::from("Teardrop North-West (Small)"),
+        "cursor-teardrop-nw-medium" => String::from("Teardrop North-West (Medium)"),
+        "cursor-teardrop-nw-large" => String::from("Teardrop North-West (Large)"),
+        "cursor-teardrop-ne-small" => String::from("Teardrop North-East (Small)"),
+        "cursor-teardrop-ne-medium" => String::from("Teardrop North-East (Medium)"),
+        "cursor-teardrop-ne-large" => String::from("Teardrop North-East (Large)"),
+        "cursor-teardrop-n-small" => String::from("Teardrop North (Small)"),
+        "cursor-teardrop-n-medium" => String::from("Teardrop North (Medium)"),
+        "cursor-teardrop-n-large" => String::from("Teardrop North (Large)"),
+        "cursor-beam-small" => String::from("Beam (Small)"),
+        "cursor-beam-medium" => String::from("Beam (Medium)"),
+        "cursor-beam-large" => String::from("Beam (Large)"),
         _ => unimplemented!(),
     }
 }

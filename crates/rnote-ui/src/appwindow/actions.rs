@@ -1,6 +1,5 @@
 // Imports
 use crate::{config, dialogs, RnAppWindow, RnCanvas};
-use gettextrs::gettext;
 use gtk4::graphene;
 use gtk4::{
     gdk, gio, glib, glib::clone, prelude::*, PrintOperation, PrintOperationAction, Unit,
@@ -570,7 +569,7 @@ impl RnAppWindow {
                     if let Err(e) = canvas.save_document_to_file(&output_file).await {
                         error!("Saving document failed, Err: `{e:?}`");
                         canvas.set_output_file(None);
-                        appwindow.overlays().dispatch_toast_error(&gettext("Saving document failed"));
+                        appwindow.overlays().dispatch_toast_error(&("Saving document failed"));
                         appwindow.overlays().progressbar_abort();
                     } else {
                         appwindow.overlays().progressbar_finish();
@@ -633,7 +632,7 @@ impl RnAppWindow {
             // Run the print op
             if let Err(e) = print_op.run(PrintOperationAction::PrintDialog, Some(&appwindow)){
                 error!("Running print operation failed , Err: {e:?}");
-                appwindow.overlays().dispatch_toast_error(&gettext("Printing document failed"));
+                appwindow.overlays().dispatch_toast_error(&("Printing document failed"));
                 appwindow.overlays().progressbar_abort();
             } else {
                 appwindow.overlays().progressbar_finish();
@@ -669,7 +668,7 @@ impl RnAppWindow {
                 if !canvas.engine_ref().nothing_selected() {
                     dialogs::export::dialog_export_selection_w_prefs(&appwindow, &appwindow.active_tab_wrapper().canvas()).await;
                 } else {
-                    appwindow.overlays().dispatch_toast_error(&gettext("Exporting selection failed, nothing selected"));
+                    appwindow.overlays().dispatch_toast_error(&("Exporting selection failed, nothing selected"));
                 }
             }));
         }));

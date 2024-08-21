@@ -5,7 +5,6 @@ use crate::canvas::RnCanvas;
 use crate::{config, RnAppWindow};
 use adw::prelude::*;
 use futures::StreamExt;
-use gettextrs::gettext;
 use gtk4::{
     gio, glib, glib::clone, Builder, Button, CallbackAction, FileDialog, FileFilter, Label,
     Shortcut, ShortcutController, ShortcutTrigger, ToggleButton,
@@ -26,15 +25,15 @@ pub(crate) async fn filedialog_open_doc(appwindow: &RnAppWindow) {
         filter.add_mime_type("application/rnote");
     }
     filter.add_suffix("rnote");
-    filter.set_name(Some(&gettext(".rnote")));
+    filter.set_name(Some(&(".rnote")));
 
     let filter_list = gio::ListStore::new::<FileFilter>();
     filter_list.append(&filter);
 
     let filedialog = FileDialog::builder()
-        .title(gettext("Open File"))
+        .title("Open File")
         .modal(true)
-        .accept_label(gettext("Open"))
+        .accept_label("Open")
         .filters(&filter_list)
         .default_filter(&filter)
         .build();
@@ -82,15 +81,15 @@ pub(crate) async fn filedialog_import_file(appwindow: &RnAppWindow) {
     filter.add_suffix("jpg");
     filter.add_suffix("jpeg");
     filter.add_suffix("txt");
-    filter.set_name(Some(&gettext("Jpg, Pdf, Png, Svg, Xopp, Txt")));
+    filter.set_name(Some(&("Jpg, Pdf, Png, Svg, Xopp, Txt")));
 
     let filter_list = gio::ListStore::new::<FileFilter>();
     filter_list.append(&filter);
 
     let dialog = FileDialog::builder()
-        .title(gettext("Import File"))
+        .title("Import File")
         .modal(true)
-        .accept_label(gettext("Import"))
+        .accept_label("Import")
         .filters(&filter_list)
         .default_filter(&filter)
         .build();
@@ -235,42 +234,42 @@ pub(crate) async fn dialog_import_pdf_w_prefs(
         poppler::Document::from_gfile(&input_file, None, None::<&gio::Cancellable>)
     {
         let file_name = input_file.basename().map_or_else(
-            || gettext("- no file name -"),
+            || String::from("- no file name -"),
             |s| s.to_string_lossy().to_string(),
         );
         let title = poppler_doc
             .title()
-            .map_or_else(|| gettext("- no title -"), |s| s.to_string());
+            .map_or_else(|| String::from("- no title -"), |s| s.to_string());
         let author = poppler_doc
             .author()
-            .map_or_else(|| gettext("- no author -"), |s| s.to_string());
+            .map_or_else(|| String::from("- no author -"), |s| s.to_string());
         let mod_date = poppler_doc
             .mod_datetime()
             .and_then(|dt| dt.format("%F").ok())
-            .map_or_else(|| gettext("- no date -"), |s| s.to_string());
+            .map_or_else(|| String::from("- no date -"), |s| s.to_string());
         let n_pages = poppler_doc.n_pages();
 
         // pdf info
         pdf_info_label.set_label(
             (String::from("")
                 + "<b>"
-                + &gettext("File name:")
+                + &("File name:")
                 + "  </b>"
                 + &format!("{file_name}\n")
                 + "<b>"
-                + &gettext("Title:")
+                + &("Title:")
                 + "  </b>"
                 + &format!("{title}\n")
                 + "<b>"
-                + &gettext("Author:")
+                + &("Author:")
                 + "  </b>"
                 + &format!("{author}\n")
                 + "<b>"
-                + &gettext("Modification date:")
+                + &("Modification date:")
                 + "  </b>"
                 + &format!("{mod_date}\n")
                 + "<b>"
-                + &gettext("Pages:")
+                + &("Pages:")
                 + "  </b>"
                 + &format!("{n_pages}\n"))
                 .as_str(),

@@ -1,7 +1,6 @@
 // Imports
 use crate::workspacebrowser::widgethelper;
 use crate::{RnAppWindow, RnWorkspaceBrowser};
-use gettextrs::gettext;
 use gtk4::{gio, glib, glib::clone, pango, prelude::*, Align, Entry, Label};
 use tracing::{debug, warn};
 
@@ -64,16 +63,14 @@ pub(crate) fn create_folder(
 }
 
 fn create_folder_name_entry() -> Entry {
-    Entry::builder()
-        .placeholder_text(gettext("Folder Name"))
-        .build()
+    Entry::builder().placeholder_text("Folder Name").build()
 }
 
 fn create_dialog_title_label() -> Label {
     let label = Label::builder()
         .margin_bottom(12)
         .halign(Align::Center)
-        .label(gettext("New Folder"))
+        .label("New Folder")
         .width_chars(24)
         .ellipsize(pango::EllipsizeMode::End)
         .build();

@@ -1,7 +1,6 @@
 // Imports
 use crate::{config, dialogs, RnMainHeader, RnOverlays, RnSidebar};
 use adw::{prelude::*, subclass::prelude::*};
-use gettextrs::gettext;
 use gtk4::{
     gdk, glib, glib::clone, Align, ArrowType, CompositeTemplate, CornerType, CssProvider, PackType,
     PadActionType, PadController, PositionType,
@@ -266,7 +265,7 @@ impl WindowImpl for RnAppWindow {
             self.main_header.headerbar().set_sensitive(false);
             self.sidebar.headerbar().set_sensitive(false);
             obj.overlays().dispatch_toast_text_singleton(
-                &gettext("Saves are in progress, waiting before closing.."),
+                &("Saves are in progress, waiting before closing.."),
                 None,
                 &mut self.save_in_progress_toast.borrow_mut(),
             );
@@ -311,7 +310,7 @@ impl RnAppWindow {
                                         canvas.set_output_file(None);
                                         appwindow
                                             .overlays()
-                                            .dispatch_toast_error(&gettext("Saving document failed"));
+                                            .dispatch_toast_error(&("Saving document failed"));
                                     };
                                 }));
                             }
@@ -334,28 +333,28 @@ impl RnAppWindow {
             PadActionType::Button,
             0,
             -1,
-            &gettext("Button 1"),
+            &("Button 1"),
             "drawing-pad-pressed-button-0",
         );
         drawing_pad_controller.set_action(
             PadActionType::Button,
             1,
             -1,
-            &gettext("Button 2"),
+            &("Button 2"),
             "drawing-pad-pressed-button-1",
         );
         drawing_pad_controller.set_action(
             PadActionType::Button,
             2,
             -1,
-            &gettext("Button 3"),
+            &("Button 3"),
             "drawing-pad-pressed-button-2",
         );
         drawing_pad_controller.set_action(
             PadActionType::Button,
             3,
             -1,
-            &gettext("Button 4"),
+            &("Button 4"),
             "drawing-pad-pressed-button-3",
         );
 

@@ -85,7 +85,7 @@ if host_machine.system() != 'windows'
     # "C:/msys64/mingw64/bin/msgfmt.EXE: cannot locate ITS rules for crates/rnote-ui/data/app.metainfo.xml.in"
     #
     # Even though the appdata package is installed and the rule "metainfo.its" is present in
-    # "/mingw64/share/gettext/its". But because we don't need the appdata file, we can circumvent this error by just not
+    # "/mingw64/share//its". But because we don't need the appdata file, we can circumvent this error by just not
     # processing the metainfo file, we don't need it anyway.
     appdata_file = i18n.merge_file(
         input: appdata_file_in,

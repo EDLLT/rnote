@@ -1,7 +1,6 @@
 // Imports
 use crate::workspacebrowser::{widgethelper, RnFileRow};
 use crate::RnAppWindow;
-use gettextrs::gettext;
 use gtk4::{gio, glib, glib::clone, pango, prelude::*, Align, Entry, Label};
 use std::path::Path;
 use tracing::{debug, error};
@@ -37,14 +36,14 @@ pub(crate) fn rename(filerow: &RnFileRow, appwindow: &RnAppWindow) -> gio::Simpl
             let new_file_path = parent_path.join(entry.text());
 
             if new_file_path.exists() {
-                appwindow.overlays().dispatch_toast_error(&gettext("Renaming file failed, target file already exists"));
+                appwindow.overlays().dispatch_toast_error(&("Renaming file failed, target file already exists"));
                 debug!("Renaming file with path '{}' failed, target file already exists", new_file_path.display());
             } else {
                 glib::spawn_future_local(clone!(@strong current_file_path, @weak appwindow => async move {
                     appwindow.overlays().progressbar_start_pulsing();
                     if let Err(e) = async_fs::rename(&current_file_path, &new_file_path).await {
                         error!("Renaming file with path `{}` failed, Err: {e:?}", new_file_path.display());
-                        appwindow.overlays().dispatch_toast_error(&gettext("Renaming file failed"));
+                        appwindow.overlays().dispatch_toast_error(&("Renaming file failed"));
                         appwindow.overlays().progressbar_abort();
                     } else {
                         appwindow.overlays().progressbar_finish();
@@ -89,7 +88,7 @@ fn create_label() -> Label {
     let label = Label::builder()
         .margin_bottom(12)
         .halign(Align::Center)
-        .label(gettext("Rename"))
+        .label("Rename")
         .width_chars(24)
         .ellipsize(pango::EllipsizeMode::End)
         .build();
